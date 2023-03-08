@@ -19,8 +19,8 @@ menu{
 
 .hexagon {
     position: relative;
-    width: 400px;
-    height: 692.820px;
+    width: 450px;
+    height: 779.4228px;
     background: #A52A2A;
     margin: 50px auto;
 }
@@ -29,14 +29,31 @@ menu{
 .hexagon::after {
     content: "";
     position: absolute;
-    border-bottom: 346.41px solid transparent;
-    border-top: 346.41px solid transparent;
+    border-bottom: 389.711px solid transparent;
+    border-top: 389.711px solid transparent;
 }
 .hexagon::before {
     right: 100%;
-    border-right: 200px solid #A52A2A;
+    border-right: 225px solid #A52A2A;
 }
 .hexagon::after {
     left: 100%;
-    border-left: 200px solid #A52A2A;
+    border-left: 225px solid #A52A2A;
+}
+
+#gameBoard li{
+    float: left;
+    margin: 0px auto;
+    height: 77.942px;
+    width: 77.942px;
+    font-size: 0px;
+    background: #333;
+    color: #ccc;
+    list-style: none;
+    text-align: center;
+    border-radius: 50%;
+}
+#gameBoard li:hover, #reset:hover{
+    cursor: pointer;
+    background: #000;
 }
