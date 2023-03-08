@@ -1,0 +1,42 @@
+body{
+    background: #212121;
+    color: #666;
+}
+h1{
+    text-align: center;
+    color: #fff;
+}
+
+menu{
+    width: 350px;
+    overflow: auto;
+    margin: 40px auto;
+    background: #666;
+    padding-bottom: 40px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.hexagon {
+    position: relative;
+    width: 400px;
+    height: 692.820px;
+    background: #A52A2A;
+    margin: 50px auto;
+}
+.hexagon::before,
+.hexagon::after,
+.hexagon::after {
+    content: "";
+    position: absolute;
+    border-bottom: 346.41px solid transparent;
+    border-top: 346.41px solid transparent;
+}
+.hexagon::before {
+    right: 100%;
+    border-right: 200px solid #A52A2A;
+}
+.hexagon::after {
+    left: 100%;
+    border-left: 200px solid #A52A2A;
+}
