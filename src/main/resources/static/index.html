@@ -11,14 +11,17 @@
 <header>
     <h1>Abalone game</h1>
 </header>
+
 <div class="text-center" id="menu">
     <input id="name" placeholder="Enter name">
     <button onclick="createGame()">Create session</button>
-    <button onclick="connectToGame()">Connect to session</button>
+    <button onclick="randomize()">Connect to session</button>
 </div>
-<div class="hexagon">
-    <ul id="gameBoard">
-    </ul>
+
+
+
+<div class="hexagon" id="field" >
+<ul id="gameBoard"></ul>
 </div>
 
 <script src="js/script.js"></script>

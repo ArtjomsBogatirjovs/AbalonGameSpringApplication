@@ -18,11 +18,11 @@ menu{
 }
 
 .hexagon {
-    position: relative;
+    position: sticky;
     width: 450px;
     height: 779.4228px;
     background: #A52A2A;
-    margin: 50px auto;
+    margin:50px auto;
 }
 .hexagon::before,
 .hexagon::after,
@@ -32,6 +32,7 @@ menu{
     border-bottom: 389.711px solid transparent;
     border-top: 389.711px solid transparent;
 }
+
 .hexagon::before {
     right: 100%;
     border-right: 225px solid #A52A2A;
@@ -42,6 +43,7 @@ menu{
 }
 
 #gameBoard li{
+    position: relative;
     float: left;
     margin: 0px auto;
     height: 77.942px;
