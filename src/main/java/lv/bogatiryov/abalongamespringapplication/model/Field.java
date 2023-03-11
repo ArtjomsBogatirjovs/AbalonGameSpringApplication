@@ -1,6 +1,11 @@
 package lv.bogatiryov.abalongamespringapplication.model;
 
-public class Field{
+import lombok.EqualsAndHashCode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@EqualsAndHashCode
+public class Field {
     private Ball ball;
     private final int xCord;
     private final int yCord;

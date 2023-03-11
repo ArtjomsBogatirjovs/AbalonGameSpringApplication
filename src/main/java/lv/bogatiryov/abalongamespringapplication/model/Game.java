@@ -1,46 +1,32 @@
 package lv.bogatiryov.abalongamespringapplication.model;
 
 /*
-    Class storage for game steps
+    Class storage for game movements
     Author:Artjoms Bogatirjovs
  */
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "Step"
-})
-
-
+@Component
 public class Game {
 
-    @JsonProperty("Step")
-    private ArrayList<Step> steps = null;
+    private ArrayList<Movement> movements = null;
 
     public Game() {
-        super();
     }
 
-    /**
-     * @param steps
-     */
-    public Game(ArrayList<Step> steps) {
-        this.steps = steps;
+    public Game(ArrayList<Movement> movements) {
+        this.movements = movements;
     }
 
-    @JsonProperty("Step")
-    public ArrayList<Step> getSteps() {
-        return steps;
+    public ArrayList<Movement> getMovements() {
+        return movements;
     }
 
-    @JsonProperty("Step")
-    public void setSteps(ArrayList<Step> steps) {
-        this.steps = steps;
+    public void setMovements(ArrayList<Movement> movements) {
+        this.movements = movements;
     }
 
 

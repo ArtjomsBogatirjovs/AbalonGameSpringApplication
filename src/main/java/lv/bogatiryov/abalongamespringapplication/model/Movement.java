@@ -11,4 +11,6 @@ import java.util.ArrayList;
 public class Movement {
     private Direction direction;
     private ArrayList<Field> fields;
+    private String text;
+    private String playerId;
 }
