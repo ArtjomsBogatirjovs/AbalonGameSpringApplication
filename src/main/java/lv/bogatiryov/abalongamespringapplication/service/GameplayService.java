@@ -6,6 +6,8 @@ import lv.bogatiryov.abalongamespringapplication.exception.InvalidGameException;
 import lv.bogatiryov.abalongamespringapplication.exception.NotFoundException;
 import lv.bogatiryov.abalongamespringapplication.model.*;
 import lv.bogatiryov.abalongamespringapplication.storages.GameplayStorage;
+import lv.bogatiryov.abalongamespringapplication.validator.MovementValidator;
+import lv.bogatiryov.abalongamespringapplication.validator.Validatable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -69,19 +71,21 @@ public class GameplayService {
     }
 
     public Gameplay makeMovement(Movement movement) throws NotFoundException, InvalidGameException {
+        Validatable<Movement> moveValidator = new MovementValidator();
+        BoardService bService = new BoardService();
 
         Gameplay gameplay = getGameplayInstance();
+        Board board = gameplay.getBoard();
+        movement.setBoard(board);
 
         validate(gameplay);
+        moveValidator.validate(movement);
 
         gameplay.getGame().getMovements().add(movement);
 
-        Board board = gameplay.getBoard();
-
         Player currplayer = gameplay.getCurrPlayer();
 
-
-        //gameplay.setBoard(placeSymbol(board, symbol, movement.getStepValue(), 3));
+        gameplay.setBoard(bService.makeMove(board, movement));
 
 /*
         if(checkGameFinish(gameplay.getBoard(), current_player)) {
@@ -206,6 +210,7 @@ public class GameplayService {
     private boolean winСheck(String[][] matrix, String mark) {
         return false;
     }
-
-
+    public Board getGameplayBoard(){
+        return getGameplayInstance().getBoard();
+    }
 }

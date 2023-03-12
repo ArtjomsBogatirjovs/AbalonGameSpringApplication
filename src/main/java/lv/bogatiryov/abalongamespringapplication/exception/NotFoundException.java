@@ -1,13 +1,15 @@
 package lv.bogatiryov.abalongamespringapplication.exception;
 
-public class NotFoundException extends Exception {
-    private String message;
-
-    public NotFoundException(String message) {
-        this.message = message;
+public class NotFoundException extends ValidateException {
+    public NotFoundException() {
+        super("Not found error!");
     }
 
-    public String getMessage() {
-        return message;
+    public NotFoundException(String message) {
+        super(message);
+    }
+
+    public NotFoundException(ExceptionMessage message) {
+        super(message);
     }
 }

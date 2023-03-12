@@ -5,11 +5,10 @@ package lv.bogatiryov.abalongamespringapplication.model;
     Author:Artjoms Bogatirjovs
  */
 
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component
+
 public class Game {
 
     private ArrayList<Movement> movements = null;

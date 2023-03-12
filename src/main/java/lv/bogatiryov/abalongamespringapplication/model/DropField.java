@@ -1,10 +1,10 @@
 package lv.bogatiryov.abalongamespringapplication.model;
 
 import lombok.EqualsAndHashCode;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-@EqualsAndHashCode
+
+@EqualsAndHashCode(callSuper = false)
 public class DropField extends Field {
     private ArrayList<Ball> balls = new ArrayList<>();
 

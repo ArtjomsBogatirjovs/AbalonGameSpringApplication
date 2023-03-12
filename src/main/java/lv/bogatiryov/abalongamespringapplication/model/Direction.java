@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Direction {
-    private boolean x;
-    private boolean y;
+    private Boolean x;
+    private Boolean y;
 }

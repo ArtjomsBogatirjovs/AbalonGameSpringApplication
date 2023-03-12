@@ -11,8 +11,8 @@
     <groupId>lv.bogatiryov</groupId>
     <artifactId>AbalonGameSpringApplication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>AbalonGameSpringApplication</name>
-    <description>AbalonGameSpringApplication</description>
+    <name>AbaloneGameSpringApplication</name>
+    <description>AbaloneGameSpringApplication</description>
     <properties>
         <java.version>17</java.version>
     </properties>

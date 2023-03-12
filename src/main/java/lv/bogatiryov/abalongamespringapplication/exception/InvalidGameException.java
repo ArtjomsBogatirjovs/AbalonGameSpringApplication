@@ -1,13 +1,16 @@
 package lv.bogatiryov.abalongamespringapplication.exception;
 
-public class InvalidGameException extends Exception {
-    private String message;
+public class InvalidGameException extends ValidateException{
 
     public InvalidGameException(String message) {
-        this.message = message;
+        super(message);
     }
 
-    public String getMessage() {
-        return message;
+    public InvalidGameException(ExceptionMessage message) {
+        super(message);
+    }
+
+    public InvalidGameException() {
+        super("Invalid game error");
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Service
-public class BoardService {
+public class BoardService { //TODO custom board create
     private final static Ball W = new Ball(Color.WHITE);
     private final static Ball B = new Ball(Color.BLACK);
     private final static int BOARD_SIZE = 11;
@@ -53,20 +53,62 @@ public class BoardService {
         return result;
     }
 
-    public boolean makeMove(Board board, Movement move) {
+    public Board makeMove(Board board, Movement move) {//TODO i'm tired need to refactor this method
+        FieldService fieldService = new FieldService();
+        DirectionService dService = new DirectionService();
+        MovementService mService = new MovementService();
+
         ArrayList<Field> fieldsToMove = move.getFields();
         Direction direction = move.getDirection();
 
-        int xDirection = direction.isX() ? Directions.TRUE.getDirection() : Directions.FALSE.getDirection();
-        int yDirection = direction.isY() ? Directions.TRUE.getDirection() : Directions.FALSE.getDirection();
+        int xDirection = dService.getDirection(direction, DirectionType.X);
+        int yDirection = dService.getDirection(direction, DirectionType.Y);
 
         ArrayList<Field> tempBoard = boardToFieldList(board.getGameBoard());
-        for (Field field : fieldsToMove) {
-            Field tempField = findField(field, tempBoard);
-            Field fieldToMove = findField(tempField.getXCord() + xDirection, tempField.getYCord() + yDirection, tempBoard);
-            transferBall(tempField,fieldToMove);
+        move.getBoard().setFieldList(tempBoard);//TODO possible null refactor this method
+        Field currentField = mService.getLastFieldInChain(move);
+        Field fieldToMove = findField(currentField.getXCord() + xDirection, currentField.getYCord() + yDirection, tempBoard);
+        if (fieldToMove.getBall() == null) {
+            for (Field f : fieldsToMove) {
+                currentField = findField(f, tempBoard);
+                fieldToMove = findField(currentField.getXCord() + xDirection, currentField.getYCord() + yDirection, tempBoard);
+                fieldService.transferBall(currentField, fieldToMove);
+            }
         }
-        return true;
+        if (fieldsToMove.contains(fieldToMove)) {
+            currentField = getFirstEmptyFieldInDirection(tempBoard, currentField, direction);
+            xDirection *= -1;
+            yDirection *= -1;
+            for (int i = 0; i < BOARD_SIZE; i++) {
+                currentField = findField(currentField, tempBoard);
+                fieldToMove = findField(currentField.getXCord() + xDirection,currentField.getYCord() + yDirection,tempBoard);
+                if(mService.getLastFieldInChain(move).equals(fieldToMove)){
+                    fieldService.transferBall(fieldToMove,currentField);
+                    break;
+                }
+                fieldService.transferBall(fieldToMove,currentField);
+                currentField = fieldToMove;
+            }
+        }
+
+        board.setFieldList(tempBoard);
+        return board;
+    }
+
+    private Field getFirstEmptyFieldInDirection(ArrayList<Field> board, Field startField, Direction direction) {//TODO i'm tired need to refactor this method
+        DirectionService dService = new DirectionService();
+        Field tempField = findField(startField, board);
+
+        int xDirection = dService.getDirection(direction, DirectionType.X);
+        int yDirection = dService.getDirection(direction, DirectionType.Y);
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            tempField = findField(tempField.getXCord() + xDirection, tempField.getYCord() + yDirection, board);
+            if (tempField.getBall() == null) {
+                return tempField;
+            }
+        }
+        return null;
     }
 
     public Field findField(int x, int y, ArrayList<Field> board) {
@@ -106,9 +148,5 @@ public class BoardService {
     private int calculateOppositeCord(int cord) {
         return (BOARD_SIZE - 1) - cord;
     }
-    private boolean transferBall(Field field, Field fieldToMove){
-        fieldToMove.setBall(field.getBall());
-        field.setBall(null);
-        return true;
-    }
+
 }

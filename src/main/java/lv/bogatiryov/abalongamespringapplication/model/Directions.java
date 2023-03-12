@@ -2,12 +2,13 @@ package lv.bogatiryov.abalongamespringapplication.model;
 
 public enum Directions {
     TRUE(1,true),
-    FALSE(-1,false);
+    FALSE(-1,false),
+    NULL(0,null);
     private final int direction;
 
-    private final boolean statement;
+    private final Boolean statement;
 
-    Directions(int direction, boolean statement) {
+    Directions(int direction, Boolean statement) {
         this.direction = direction;
         this.statement = statement;
     }
@@ -15,7 +16,7 @@ public enum Directions {
     public int getDirection() {
         return direction;
     }
-    public boolean isStatement() {
+    public Boolean isStatement() {
         return statement;
     }
 }
