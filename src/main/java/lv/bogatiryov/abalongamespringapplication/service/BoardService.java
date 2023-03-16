@@ -1,25 +1,31 @@
 package lv.bogatiryov.abalongamespringapplication.service;
 
-import lv.bogatiryov.abalongamespringapplication.model.*;
+import lv.bogatiryov.abalongamespringapplication.db.domain.*;
+import lv.bogatiryov.abalongamespringapplication.enums.DirectionType;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
+
+import static lv.bogatiryov.abalongamespringapplication.enums.Color.BLACK;
+import static lv.bogatiryov.abalongamespringapplication.enums.Color.WHITE;
 
 @Service
 public class BoardService { //TODO custom board create
-    private final static Ball W = new Ball(Color.WHITE);
-    private final static Ball B = new Ball(Color.BLACK);
+    private final static Ball B = new Ball(BLACK);
+    private final static Ball W = new Ball(WHITE);
     private final static int BOARD_SIZE = 11;
     private final static int GAMING_BOARD_MIDDLE = BOARD_SIZE / 2;
     private final static int DROP_FIELD = 0;
 
-    public Board getNewBoard() {
+    private MovementService mService;
+
+    public static Board getNewBoard() {
         Field[][] tempBoard = createBoard();
         return new Board(tempBoard);
     }
 
-    public Field[][] createBoard() {
+
+    public static Field[][] createBoard() {
 
         Field[][] gameBoard = new Field[BOARD_SIZE][BOARD_SIZE];
         for (int x = 0; x <= GAMING_BOARD_MIDDLE; x++) {
@@ -45,8 +51,8 @@ public class BoardService { //TODO custom board create
         return gameBoard;
     }
 
-    public ArrayList<Field> boardToFieldList(Field[][] board) {
-        ArrayList<Field> result = new ArrayList<>();
+    public Set<Field> boardToFieldList(Field[][] board) {
+        Set<Field> result = new HashSet<>();
         for (Field[] fieldArray : board) {
             result.addAll(Arrays.asList(fieldArray));
         }
@@ -56,15 +62,14 @@ public class BoardService { //TODO custom board create
     public Board makeMove(Board board, Movement move) {//TODO i'm tired need to refactor this method
         FieldService fieldService = new FieldService();
         DirectionService dService = new DirectionService();
-        MovementService mService = new MovementService();
 
-        ArrayList<Field> fieldsToMove = move.getFields();
+        Set<Field> fieldsToMove = move.getFields();
         Direction direction = move.getDirection();
 
         int xDirection = dService.getDirection(direction, DirectionType.X);
         int yDirection = dService.getDirection(direction, DirectionType.Y);
 
-        ArrayList<Field> tempBoard = boardToFieldList(board.getGameBoard());
+        Set<Field> tempBoard = boardToFieldList(board.getGameBoard());
         move.getBoard().setFieldList(tempBoard);//TODO possible null refactor this method
         Field currentField = mService.getLastFieldInChain(move);
         Field fieldToMove = findField(currentField.getXCord() + xDirection, currentField.getYCord() + yDirection, tempBoard);
@@ -95,7 +100,7 @@ public class BoardService { //TODO custom board create
         return board;
     }
 
-    private Field getFirstEmptyFieldInDirection(ArrayList<Field> board, Field startField, Direction direction) {//TODO i'm tired need to refactor this method
+    private Field getFirstEmptyFieldInDirection(Set<Field> board, Field startField, Direction direction) {//TODO i'm tired need to refactor this method
         DirectionService dService = new DirectionService();
         Field tempField = findField(startField, board);
 
@@ -111,18 +116,19 @@ public class BoardService { //TODO custom board create
         return null;
     }
 
-    public Field findField(int x, int y, ArrayList<Field> board) {
+    public Field findField(int x, int y, Set<Field> board) {
         return findField(null, x, y, board);
     }
 
-    public Field findField(Field fieldToFind, ArrayList<Field> board) {
+    public Field findField(Field fieldToFind, Set<Field> board) {
         return findField(fieldToFind, null, null, board);
     }
 
-    public Field findField(Field fieldToFind, Integer x, Integer y, ArrayList<Field> board) {
+    public Field findField(Field fieldToFind, Integer x, Integer y, Set<Field> board) {
         if (board.contains(fieldToFind)) {
-            int index = board.indexOf(fieldToFind);
-            return board.get(index);
+           List<Field> tempList = board.stream().toList();
+           int index = tempList.indexOf(fieldToFind);
+            return tempList.get(index);
         }
 
         if (fieldToFind != null) {
@@ -145,7 +151,7 @@ public class BoardService { //TODO custom board create
         return null;
     }
 
-    private int calculateOppositeCord(int cord) {
+    private static int calculateOppositeCord(int cord) {
         return (BOARD_SIZE - 1) - cord;
     }
 

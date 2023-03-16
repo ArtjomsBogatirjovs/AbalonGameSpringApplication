@@ -1,13 +1,14 @@
 package lv.bogatiryov.abalongamespringapplication.service;
 
-import lv.bogatiryov.abalongamespringapplication.model.Ball;
-import lv.bogatiryov.abalongamespringapplication.model.Color;
-import lv.bogatiryov.abalongamespringapplication.model.DropField;
-import lv.bogatiryov.abalongamespringapplication.model.Field;
+import lv.bogatiryov.abalongamespringapplication.db.domain.Ball;
+import lv.bogatiryov.abalongamespringapplication.enums.Color;
+import lv.bogatiryov.abalongamespringapplication.db.domain.DropField;
+import lv.bogatiryov.abalongamespringapplication.db.domain.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +39,7 @@ class BoardServiceTest {
 
     @Test
     void createBoard() {
-        Field[][] testBoard = boardService.createBoard();
+        Field[][] testBoard = BoardService.createBoard();
         assertArrayEquals(gameBoard, testBoard);
     }
 
@@ -51,11 +52,11 @@ class BoardServiceTest {
                 {tempField1, tempField2},
                 {tempField3}
         };
-        ArrayList<Field> expected = new ArrayList<>();
+        Set<Field> expected = new HashSet<>();
         expected.add(tempField1);
         expected.add(tempField2);
         expected.add(tempField3);
-        ArrayList<Field> actual = boardService.boardToFieldList(testBoard);
+        Set<Field> actual = boardService.boardToFieldList(testBoard);
         assertEquals(expected, actual);
     }
 
@@ -69,11 +70,11 @@ class BoardServiceTest {
                 {tempField3},
                 {new Field(5, 8)}
         };
-        ArrayList<Field> expected = new ArrayList<>();
+        Set<Field> expected = new HashSet<>();
         expected.add(tempField1);
         expected.add(tempField2);
         expected.add(tempField3);
-        ArrayList<Field> actual = boardService.boardToFieldList(testBoard);
+        Set<Field> actual = boardService.boardToFieldList(testBoard);
         assertNotEquals(expected, actual);
     }
 }

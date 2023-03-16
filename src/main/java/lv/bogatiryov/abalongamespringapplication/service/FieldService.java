@@ -1,10 +1,12 @@
 package lv.bogatiryov.abalongamespringapplication.service;
 
-import lv.bogatiryov.abalongamespringapplication.model.Field;
+import lv.bogatiryov.abalongamespringapplication.db.domain.Field;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Set;
+@Service
 public class FieldService {
     public final static int MAX_NEAR_COORDINATE_DIFFERENCE = 1;
     public final static int MIN_NEAR_COORDINATE_DIFFERENCE = -1;
@@ -23,19 +25,19 @@ public class FieldService {
         });
     }
 
-    public boolean isRow(ArrayList<Field> fields) {
+    public boolean isRow(Set<Field> fields) {
         ArrayList<Field> tempFields = new ArrayList<>(List.copyOf(fields));
 
         FieldService fieldService = new FieldService();
         fieldService.sortFields(tempFields);
         Integer xDiff = null;
         Integer yDiff = null;
-        for (int i = 0; i < fields.size(); i++) {
-            Field tempField = fields.get(i);
+        for (int i = 0; i < tempFields.size(); i++) {
+            Field tempField = tempFields.get(i);
 
 
-            if (i + 1 < fields.size()) {
-                Field nextField = fields.get(i + 1);
+            if (i + 1 < tempFields.size()) {
+                Field nextField = tempFields.get(i + 1);
                 if (xDiff != null && yDiff != null) {
                     if (tempField.getXCord() - nextField.getXCord() != xDiff
                             || tempField.getYCord() - nextField.getYCord() != yDiff) {

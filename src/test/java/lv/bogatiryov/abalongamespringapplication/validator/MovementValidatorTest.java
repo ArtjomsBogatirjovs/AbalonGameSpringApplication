@@ -1,10 +1,12 @@
 package lv.bogatiryov.abalongamespringapplication.validator;
 
-import lv.bogatiryov.abalongamespringapplication.model.*;
+import lv.bogatiryov.abalongamespringapplication.db.domain.*;
+import lv.bogatiryov.abalongamespringapplication.enums.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,12 +20,15 @@ class MovementValidatorTest { //TODO add tests
 
     @Test
     void isNeedToMoveBall() {
-        Direction dir = new Direction(false,null);
-        ArrayList<Field>  fields = new ArrayList<>();
+        Direction dir = new Direction();
+        dir.setX(false);
+        Set<Field> fields = new HashSet<>();
         fields.add(new Field(1,-1));
         fields.add(new Field(0,-2));
         fields.add(new Field(2,0));
-        Movement move = new Movement(dir,fields,"test");
+        Movement move = new Movement();
+        move.setDirection(dir);
+        move.setFields(fields);
         Board board = new Board();
         Field [][] testBoard = {
                 {new Field(-1,1),new Field(0,1),new Field(1,1),new Field(2,1),new Field(3,1)},
@@ -38,12 +43,16 @@ class MovementValidatorTest { //TODO add tests
     }
     @Test
     void isNotNeedToMoveBall() {
-        Direction dir = new Direction(true,null);
-        ArrayList<Field>  fields = new ArrayList<>();
+        Direction dir = new Direction();
+        dir.setX(true);
+        dir.setY(null);
+        Set<Field>  fields = new HashSet<>();
         fields.add(new Field(1,-1));
         fields.add(new Field(0,-2));
         fields.add(new Field(2,0));
-        Movement move = new Movement(dir,fields,"test");
+        Movement move = new Movement();
+        move.setDirection(dir);
+        move.setFields(fields);
         Board board = new Board();
         Field [][] testBoard = {
                 {new Field(-1,1),new Field(0,1),new Field(1,1),new Field(2,1),new Field(3,1)},
@@ -59,22 +68,29 @@ class MovementValidatorTest { //TODO add tests
 
     @Test
     void testIsDirectionNotLikeRow() {
-        Direction dir = new Direction(null,true);
-        ArrayList<Field>  fields = new ArrayList<>();
+        Direction dir = new Direction();
+        dir.setY(true);
+        Set<Field>  fields = new HashSet<>();
         fields.add(new Field(0,0));
         fields.add(new Field(1,1));
         fields.add(new Field(-1,-1));
-        Movement move = new Movement(dir,fields,"test");
+        Movement move = new Movement();
+        move.setDirection(dir);
+        move.setFields(fields);
         assertFalse(validator.isDirectionLikeRow(move));
     }
     @Test
     void testIsDirectionLikeRow() {
-        Direction dir = new Direction(false,false);
-        ArrayList<Field>  fields = new ArrayList<>();
+        Direction dir = new Direction();
+        dir.setY(false);
+        dir.setX(false);
+        Set<Field>  fields = new HashSet<>();
         fields.add(new Field(0,0));
         fields.add(new Field(1,1));
         fields.add(new Field(-1,-1));
-        Movement move = new Movement(dir,fields,"test");
+        Movement move = new Movement();
+        move.setDirection(dir);
+        move.setFields(fields);
         assertTrue(validator.isDirectionLikeRow(move));
     }
 }

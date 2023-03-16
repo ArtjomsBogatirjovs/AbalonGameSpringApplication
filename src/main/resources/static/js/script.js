@@ -1,42 +1,80 @@
-let isCreated = false;
-function createGame() {
-    if(isCreated){
-        return;
-    }
-    let ul = document.getElementById('gameBoard');
-    let li;
-    for (let i = 1; i <= 50; ++i) {
-        li = document.createElement('li'); // create a new list item
-        li.className = 'tic';
-        li.id = "" + i;
-        ul.appendChild(li); // append the list item to the ul
-    }
-    isCreated = true;
-}
 
-var c,ctx;
+var turns = [["#", "#", "#"], ["#", "#", "#"], ["#", "#", "#"]];
+var num = 0;
+var gameOn = false;
 
-//onload=createGame;
+onload;
 
-//function to generate random circle parameters, x,y and radius
-
-function randomize(){
-    let rowCircles = 5;
-    for (var i = 0; i < 61; i++) {
-        c = document.getElementById("canvas");
-        ctx = c.getContext("2d");
-        var rr = 77.942 / 2 ;
-        var rx = rr + rr * i * 2;
-        var ry = rr;
-        setTimeout(drawCircle(rx,ry,rr),1000);
+function playerTurn(id) {
+    if (gameOn) {
+        let spotTaken = $("#" + id).text();
+        if (spotTaken === "#") {
+            makeAMove(id);
+        }
     }
 }
-function drawCircle(rx,ry,rr){
-    var myColors  =["blue","red","green","yellow"];
-    var colorPicker = Math.ceil(4* Math.random() -1);
-    ctx.strokeStyle = myColors[colorPicker];
-    ctx.beginPath();
-    ctx.arc(rx,ry,rr,0,2*Math.PI);
-    ctx.stroke();
-    ctx.closePath();
+function makeAMove(text) {
+    if (num === 0) {
+        num = 1;
+    } else {
+        num += 1;
+        // $("#message3").html(num);
+    }
+    $.ajax({
+        url: url + "/gameplay/game",
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "num": num,
+            "playerId": pl_id,
+            "text": text
+        }),
+        success: function (data) {
+            gameOn = false;
+            pl_id = data.currPlayer.id;
+            pl_name = data.currPlayer.name;
+            pl_color = data.currPlayer.color;
+            displayResponse(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
 }
+function displayResponse(data) {
+    let board = data.board;
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            if (board[i][j] === "X") {
+                turns[i][j] = 'X'
+            } else if (board[i][j] === "O") {
+                turns[i][j] = 'O';
+            }
+            let id = coordTranfer(i, j);
+            $("#" + id).text(turns[i][j]);
+        }
+    }
+
+    $("#message").html(" ");
+
+    if ( data.status === "FINISHED" && num === 9) {
+        $("#message").html("Игра завершилась вничью!");
+        // alert("Игра завершилась вничью!");
+    }
+
+    if (data.GameResult != null) {
+        // alert("Победил игрок " + data.GameResult.Player.name + " ("+ data.GameResult.Player.symbol + ")");
+        $("#message2").html("Победил игрок " + data.GameResult.Player.name + " ("+ data.GameResult.Player.symbol + ")!");
+    }
+
+    if (data.curPlayer.name === data.Player[0].name) {
+        $("#message2").html("Следующий ход игрока " + data.Player[0].name + " ("+ data.Player[0].symbol + ")");
+    } else  {
+        $("#message2").html("Следующий ход игрока " + data.Player[1].name + " ("+ data.Player[1].symbol + ")");
+    }
+
+    gameOn = true;
+}
+
+

@@ -2,28 +2,55 @@
 <html lang="en">
 <head>
     <title>Abalone game</title>
-    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <!--    libs for stomp and sockjs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <!--    end libs for stomp and sockjs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 
 <body>
-<header>
-    <h1>Abalone game</h1>
-</header>
-
-<div class="text-center" id="menu">
-    <input id="name" placeholder="Enter name">
+<div class="text-center" id="box">
+    <header>
+        <h1>Abalone game</h1>
+    </header>
+    <input id="name" placeholder="Enter the name">
     <button onclick="createGame()">Create session</button>
-    <button onclick="randomize()">Connect to session</button>
+    <button onclick="connectToGame()">Connect to session</button>
 </div>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">TicTacToe game</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#/about">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a><strong><logged-user/></strong></a></li>
+                <li><a href="/login?logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<canvas id="canvas" width="1080" height="1080"></canvas>
+
+<!-- websocket -->
 
 
+<!-- jQuery -->
 
-<div class="hexagon" id="field" >
-<ul id="gameBoard"></ul>
-</div>
 
-<script src="js/script.js"></script>
+<!-- game code -->
+
+<script defer src="js/canvas.js"></script>
+<script defer src="js/global-variables.js"></script>
+<script defer src="js/renderer.js"></script>
+<script defer src="js/dark-mode.js"></script>
+<script defer src="js/game.js"></script>
+<script defer src="js/socket.js"></script>
+<script defer src="js/script.js"></script>
 </body>
 </html>

@@ -1,12 +1,14 @@
-package lv.bogatiryov.abalongamespringapplication.model;
+package lv.bogatiryov.abalongamespringapplication.db.domain;
 
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import javax.persistence.Entity;
 
 @EqualsAndHashCode(callSuper = false)
+@Entity
+@NoArgsConstructor
 public class DropField extends Field {
-    private ArrayList<Ball> balls = new ArrayList<>();
 
     public DropField(int xCord, int yCord) {
         super(xCord, yCord);

@@ -1,25 +1,36 @@
-package lv.bogatiryov.abalongamespringapplication.model;
+package lv.bogatiryov.abalongamespringapplication.db.domain;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Board {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private long id;
+    @OneToOne
+    private Gameplay gameplay;
+    @Transient
     private Field[][] gameBoard;
-    private ArrayList<Field> fieldList; //TODO change to set
-
-    public Board() {
-    }
+    @OneToMany
+    private Set<Field> fieldList = new HashSet<>(); //TODO change to set
 
     public Board(Field[][] gameBoard) {
         this.gameBoard = gameBoard;
     }
 
-    public Board(ArrayList<Field> fieldList) {
+    public Board(Set<Field> fieldList) {
         this.fieldList = fieldList;
     }
 
@@ -35,7 +46,7 @@ public class Board {
         return new ArrayList<>(List.copyOf(fieldList));
     }
 
-    public void setFieldList(ArrayList<Field> fieldList) {
+    public void setFieldList(Set<Field> fieldList) {
         this.fieldList = fieldList;
     }
 }

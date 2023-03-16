@@ -1,10 +1,12 @@
 package lv.bogatiryov.abalongamespringapplication.service;
 
-import lv.bogatiryov.abalongamespringapplication.model.Field;
+import lv.bogatiryov.abalongamespringapplication.db.domain.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,7 +72,7 @@ class FieldServiceTest { //TODO write getSortedRow, getUnsortedRow, getNotRow...
 
     @Test
     void isRow() {
-        ArrayList<Field> expected = new ArrayList<>();
+        Set<Field> expected = new HashSet<>();
         expected.add(new Field(0, 0));
         expected.add(new Field(1, 1));
         expected.add(new Field(2, 2));
@@ -80,7 +82,7 @@ class FieldServiceTest { //TODO write getSortedRow, getUnsortedRow, getNotRow...
 
     @Test
     void isNotRow() {
-        ArrayList<Field> expected = new ArrayList<>();
+        Set<Field> expected = new HashSet<>();
         expected.add(new Field(1, 1));
         expected.add(new Field(0, 0));
         expected.add(new Field(-1, 1));

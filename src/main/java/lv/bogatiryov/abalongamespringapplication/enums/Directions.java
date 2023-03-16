@@ -1,4 +1,4 @@
-package lv.bogatiryov.abalongamespringapplication.model;
+package lv.bogatiryov.abalongamespringapplication.enums;
 
 public enum Directions {
     TRUE(1,true),
